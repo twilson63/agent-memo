@@ -33,7 +33,7 @@ jobs:
           echo "✅ TypeScript type check passed"
 
       - name: Deploy to Deno Deploy
-        uses: denoland/deploy-action@v1
+        uses: denoland/deployctl-action@v1
         with:
           project: agent-memo
           entrypoint: server.ts
