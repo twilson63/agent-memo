@@ -12,8 +12,19 @@ import {
  * Initialize memo service with cache
  */
 async function initializeService() {
-  // Open Cache API for audio files
-  const cache = await caches.open('agent-memo-audio');
+  let cache: Cache | null = null;
+
+  // Try to open Cache API for audio files (might not be available in all environments)
+  try {
+    cache = await caches.open('agent-memo-audio');
+    console.log('✅ Cache API initialized');
+  } catch (error) {
+    console.warn('⚠️  Cache API not available, audio will not be cached');
+    if (error instanceof Error) {
+      console.warn(`   Error: ${error.message}`);
+    }
+    cache = null;
+  }
 
   // Get TTS mode from environment (default to simulation for Deno Deploy)
   const ttsMode = (Deno.env.get('TTS_MODE') as 'simulation' | 'edge' | 'elevenlabs') || 'simulation';
@@ -187,4 +198,15 @@ async function startServer() {
 }
 
 // Start the server
-await startServer();
+try {
+  await startServer();
+} catch (error) {
+  console.error('❌ Failed to start server:');
+  console.error(error);
+  if (error instanceof Error) {
+    console.error(`   Message: ${error.message}`);
+    console.error(`   Stack: ${error.stack}`);
+  }
+  // Exit with error code to signal failure
+  Deno.exit(1);
+}
