@@ -65,23 +65,29 @@ jobs:
           timeout 5 deno run --allow-net --allow-env server.ts || true
           echo "✅ Server startup test completed"
 
+      - name: Install deployctl
+        run: |
+          echo "Installing deployctl..."
+          deno install --allow-read --allow-write --allow-env --allow-net --allow-run --quiet https://deno.land/x/deployctl@1.8.3/deployctl.ts
+          export PATH="$HOME/.deno/bin:$PATH"
+          echo "✅ deployctl installed"
+
       - name: Deploy to Deno Deploy
         run: |
-          # cd agent-memo
-
           # Set project name or use PROJECT_ID
           if [ -n "$PROJECT_ID" ]; then
             echo "Deploying to project: $PROJECT_ID"
-            deno deploy \
+            deployctl deploy \
               --project="$PROJECT_ID" \
-              --token="$DENO_DEPLOY_TOKEN" \
+              --token=$DENO_DEPLOY_TOKEN \
               --env=TTS_MODE=simulation \
               server.ts
           else
             echo "Deploying to project: agent-memo"
-            deno deploy \
+            deployctl deploy \
               --project="agent-memo" \
-              --token="$DENO_DEPLOY_TOKEN" \
+              --token=$DENO_DEPLOY_TOKEN \
+              --token=$DENO_DEPLOY_TOKEN \
               --env=TTS_MODE=simulation \
               server.ts
           fi
@@ -124,16 +130,16 @@ jobs:
           echo "🔊 Re-deploying with ElevenLabs support..."
 
           if [ -n "$PROJECT_ID" ]; then
-            deno deploy \
+            deployctl deploy \
               --project="$PROJECT_ID" \
-              --token="$DENO_DEPLOY_TOKEN" \
+              --token=$DENO_DEPLOY_TOKEN \
               --env=TTS_MODE=elevenlabs \
               --env=ELEVENLABS_API_KEY=${{ secrets.ELEVENLABS_API_KEY }} \
               server.ts
           else
-            deno deploy \
+            deployctl deploy \
               --project="agent-memo" \
-              --token="$DENO_DEPLOY_TOKEN" \
+              --token=$DENO_DEPLOY_TOKEN \
               --env=TTS_MODE=elevenlabs \
               --env=ELEVENLABS_API_KEY=${{ secrets.ELEVENLABS_API_KEY }} \
               server.ts
