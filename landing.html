@@ -310,14 +310,14 @@
   -H "Content-Type: application/json" \
   -d '{
     "text": "Hello! This is Agent Memo working.",
-    "voice": "june"
+    "voice": "rachel"
   }'</code></div>
 
     <p><strong>Response:</strong></p>
     <div class="code-block"><code>{
   "id": "abc123",
   "text": "Hello! This is Agent Memo working.",
-  "voice": {"id": "june", "name": "June"},
+  "voice": {"id": "rachel", "name": "Rachel"},
   "audio": {
     "filename": "memo_abc123.mp3",
     "url": "https://agent-memo.onrender.com/audio/memo_abc123.mp3",
@@ -333,48 +333,53 @@
     <div class="voices-grid">
       <div class="voice-card">
         <span class="voice-emoji">👩</span>
-        <div class="voice-name">June</div>
-        <div class="voice-gender">Female • Warm, conversational</div>
+        <div class="voice-name">Rachel</div>
+        <div class="voice-gender">Female • Young, American, calm narration</div>
       </div>
       <div class="voice-card">
         <span class="voice-emoji">👩</span>
-        <div class="voice-name">April</div>
-        <div class="voice-gender">Female • Friendly, upbeat</div>
+        <div class="voice-name">Domi</div>
+        <div class="voice-gender">Female • Strong, professional narration</div>
       </div>
       <div class="voice-card">
         <span class="voice-emoji">👩</span>
-        <div class="voice-name">Sally</div>
-        <div class="voice-gender">Female • Clear, articulate</div>
+        <div class="voice-name">Sarah</div>
+        <div class="voice-gender">Female • Soft news presenter</div>
+      </div>
+      <div class="voice-card">
+        <span class="voice-emoji">👩</span>
+        <div class="voice-name">Emily</div>
+        <div class="voice-gender">Female • Calm meditation guide</div>
+      </div>
+      <div class="voice-card">
+        <span class="voice-emoji">👩</span>
+        <div class="voice-name">Freya</div>
+        <div class="voice-gender">Female • Young, American</div>
+      </div>
+      <div class="voice-card">
+        <span class="voice-emoji">👩</span>
+        <div class="voice-name">Dorothy</div>
+        <div class="voice-gender">Female • British, children's stories</div>
       </div>
       <div class="voice-card">
         <span class="voice-emoji">👨</span>
-        <div class="voice-name">Fred</div>
-        <div class="voice-gender">Male • Professional, calm</div>
+        <div class="voice-name">Adam</div>
+        <div class="voice-gender">Male • Deep narration voice</div>
       </div>
       <div class="voice-card">
         <span class="voice-emoji">👨</span>
         <div class="voice-name">Bill</div>
-        <div class="voice-gender">Male • Authoritative, steady</div>
+        <div class="voice-gender">Male • Strong documentary voice</div>
       </div>
       <div class="voice-card">
         <span class="voice-emoji">👨</span>
         <div class="voice-name">Charlie</div>
-        <div class="voice-gender">Male • Casual, approachable</div>
-      </div>
-      <div class="voice-card">
-        <span class="voice-emoji">👩</span>
-        <div class="voice-name">Dora</div>
-        <div class="voice-gender">Female • Cheerful, energetic</div>
+        <div class="voice-gender">Male • Australian, casual conversational</div>
       </div>
       <div class="voice-card">
         <span class="voice-emoji">👨</span>
-        <div class="voice-name">Marcus</div>
-        <div class="voice-gender">Male • Deep, resonant</div>
-      </div>
-      <div class="voice-card">
-        <span class="voice-emoji">👩</span>
-        <div class="voice-name">Bella</div>
-        <div class="voice-gender">Female • Soft, gentle</div>
+        <div class="voice-name">Ethan</div>
+        <div class="voice-gender">Male • ASMR, soft-spoken</div>
       </div>
     </div>
   </section>
@@ -423,7 +428,7 @@
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
     text: "I found 5 results for your search.",
-    voice: "june"
+    voice: "rachel"
   })
 });
 
@@ -435,7 +440,7 @@ new Audio(memo.audio.url).play();</code></div>
     <p><strong>Example: Voice-Enabled Task Assistant</strong></p>
     <div class="code-block"><code>import requests
 
-def announce_task_completion(task_name, voice="june"):
+def announce_task_completion(task_name, voice="rachel"):
     response = requests.post(
         'https://agent-memo.onrender.com/memo',
         json={

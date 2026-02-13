@@ -25,7 +25,7 @@ curl -X POST https://agent-memo.onrender.com/memo \
   -H "Content-Type: application/json" \
   -d '{
     "text": "Hello! This is Agent Memo working.",
-    "voice": "june"
+    "voice": "rachel"
   }'
 ```
 
@@ -35,7 +35,7 @@ curl -X POST https://agent-memo.onrender.com/memo \
 {
   "id": "abc123",
   "text": "Hello! This is Agent Memo working.",
-  "voice": {"id": "june", "name": "June"},
+  "voice": {"id": "rachel", "name": "Rachel"},
   "audio": {
     "filename": "memo_abc123.mp3",
     "url": "https://agent-memo.onrender.com/audio/memo_abc123.mp3",
@@ -52,15 +52,16 @@ curl -X POST https://agent-memo.onrender.com/memo \
 
 | Voice ID | Name | Gender | Description |
 |----------|------|--------|-------------|
-| `june` | June | Female | Warm, conversational |
-| `april` | April | Female | Friendly, upbeat |
-| `sally` | Sally | Female | Clear, articulate |
-| `fred` | Fred | Male | Professional, calm |
-| `bill` | Bill | Male | Authoritative, steady |
-| `charlie` | Charlie | Male | Casual, approachable |
-| `dora` | Dora | Female | Cheerful, energetic |
-| `marcus` | Marcus | Male | Deep, resonant |
-| `bella` | Bella | Female | Soft, gentle |
+| `rachel` | Rachel | Female | Young, American, calm narration |
+| `domi` | Domi | Female | Strong, professional narration |
+| `sarah` | Sarah | Female | Soft news presenter |
+| `emily` | Emily | Female | Calm meditation guide |
+| `freya` | Freya | Female | Young, American |
+| `dorothy` | Dorothy | Female | British, children's stories |
+| `adam` | Adam | Male | Deep narration voice |
+| `bill` | Bill | Male | Strong documentary voice |
+| `charlie` | Charlie | Male | Australian, casual conversational |
+| `ethan` | Ethan | Male | ASMR, soft-spoken |
 
 ---
 
@@ -113,7 +114,7 @@ Convert text to audio.
 ```json
 {
   "text": "Your text here (max 5000 characters)",
-  "voice": "june"
+  "voice": "rachel"
 }
 ```
 
@@ -126,7 +127,7 @@ Convert text to audio.
 {
   "id": "abc123",
   "text": "Your text here",
-  "voice": {"id": "june", "name": "June"},
+  "voice": {"id": "rachel", "name": "Rachel"},
   "audio": {
     "filename": "memo_abc123.mp3",
     "url": "https://agent-memo.onrender.com/audio/memo_abc123.mp3",
