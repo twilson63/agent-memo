@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Memo API - Text to Speech for AI Agents</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fafbfc;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 60px 0;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+
+    .emoji-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .api-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-weight: 500;
+      margin-top: 10px;
+    }
+
+    .endpoint {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      padding: 6px 16px;
+      border-radius: 8px;
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: 0.9rem;
+      margin: 10px 5px;
+    }
+
+    section {
+      padding: 60px 0;
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #2d3748;
+    }
+
+    p {
+      margin-bottom: 15px;
+      color: #4a5568;
+    }
+
+    .code-block {
+      background: #2d3748;
+      color: #e2e8f0;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: 0.9rem;
+      margin: 20px 0;
+      line-height: 1.5;
+    }
+
+    .code-block code {
+      background: transparent;
+      padding: 0;
+    }
+
+    .voices-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .voice-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .voice-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .voice-name {
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 5px;
+    }
+
+    .voice-gender {
+      font-size: 0.85rem;
+      color: #718096;
+    }
+
+    .voice-emoji {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .endpoint-list {
+      list-style: none;
+    }
+
+    .endpoint-item {
+      background: white;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .method {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-right: 10px;
+    }
+
+    .get { background: #10b981; color: white; }
+    .post { background: #3b82f6; color: white; }
+    .delete { background: #ef4444; color: white; }
+
+    .path {
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-weight: 600;
+      color: #2d3748;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .feature {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .feature h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #2d3748;
+    }
+
+    footer {
+      background: #2d3748;
+      color: white;
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    footer a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      margin: 10px 5px;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: #5568d3;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid white;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      .emoji-icon { font-size: 3rem; }
+      section { padding: 40px 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <span class="emoji-icon">🎙️</span>
+      <h1>Agent Memo API</h1>
+      <p class="subtitle">Text to speech for AI agents</p>
+      <span class="api-badge">REST API</span>
+      <br>
+      <span class="endpoint">GET /health</span>
+      <span class="endpoint">GET /voices</span>
+      <span class="endpoint">POST /memo</span>
+      <div style="margin-top: 20px;">
+        <a href="#quick-start" class="btn btn-outline">Quick Start</a>
+        <a href="/md" class="btn btn-outline">View Markdown</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="container">
+    <h2>📖 Overview</h2>
+    <p><strong>Agent Memo</strong> is a REST API that allows AI agents to convert text to speech using multiple TTS providers. It's designed for agent-to-agent (A2A) communication, enabling AI assistants to "speak" to users or other agents via audio.</p>
+  </section>
+
+  <section class="container" id="quick-start">
+    <h2>🚀 Quick Start</h2>
+    <p><strong>Base URL:</strong></p>
+    <div class="code-block">https://agent-memo.onrender.com</div>
+
+    <p><strong>Create your first memo:</strong></p>
+    <div class="code-block"><code>curl -X POST https://agent-memo.onrender.com/memo \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "Hello! This is Agent Memo working.",
+    "voice": "june"
+  }'</code></div>
+
+    <p><strong>Response:</strong></p>
+    <div class="code-block"><code>{
+  "id": "abc123",
+  "text": "Hello! This is Agent Memo working.",
+  "voice": {"id": "june", "name": "June"},
+  "audio": {
+    "filename": "memo_abc123.mp3",
+    "url": "https://agent-memo.onrender.com/audio/memo_abc123.mp3",
+    "length": 29301,
+    "format": "mp3"
+  },
+  "createdAt": "2026-02-13T20:00:00.000Z"
+}</code></div>
+  </section>
+
+  <section class="container">
+    <h2>🎤 Available Voices</h2>
+    <div class="voices-grid">
+      <div class="voice-card">
+        <span class="voice-emoji">👩</span>
+        <div class="voice-name">June</div>
+        <div class="voice-gender">Female • Warm, conversational</div>
+      </div>
+      <div class="voice-card">
+        <span class="voice-emoji">👩</span>
+        <div class="voice-name">April</div>
+        <div class="voice-gender">Female • Friendly, upbeat</div>
+      </div>
+      <div class="voice-card">
+        <span class="voice-emoji">👩</span>
+        <div class="voice-name">Sally</div>
+        <div class="voice-gender">Female • Clear, articulate</div>
+      </div>
+      <div class="voice-card">
+        <span class="voice-emoji">👨</span>
+        <div class="voice-name">Fred</div>
+        <div class="voice-gender">Male • Professional, calm</div>
+      </div>
+      <div class="voice-card">
+        <span class="voice-emoji">👨</span>
+        <div class="voice-name">Bill</div>
+        <div class="voice-gender">Male • Authoritative, steady</div>
+      </div>
+      <div class="voice-card">
+        <span class="voice-emoji">👨</span>
+        <div class="voice-name">Charlie</div>
+        <div class="voice-gender">Male • Casual, approachable</div>
+      </div>
+      <div class="voice-card">
+        <span class="voice-emoji">👩</span>
+        <div class="voice-name">Dora</div>
+        <div class="voice-gender">Female • Cheerful, energetic</div>
+      </div>
+      <div class="voice-card">
+        <span class="voice-emoji">👨</span>
+        <div class="voice-name">Marcus</div>
+        <div class="voice-gender">Male • Deep, resonant</div>
+      </div>
+      <div class="voice-card">
+        <span class="voice-emoji">👩</span>
+        <div class="voice-name">Bella</div>
+        <div class="voice-gender">Female • Soft, gentle</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <h2>📚 API Endpoints</h2>
+    <ul class="endpoint-list">
+      <li class="endpoint-item">
+        <span class="method get">GET</span>
+        <span class="path">/health</span>
+        <p style="margin-top: 10px; margin-bottom: 0;">Check if the service is running</p>
+      </li>
+      <li class="endpoint-item">
+        <span class="method get">GET</span>
+        <span class="path">/voices</span>
+        <p style="margin-top: 10px; margin-bottom: 0;">Get all available voices</p>
+      </li>
+      <li class="endpoint-item">
+        <span class="method post">POST</span>
+        <span class="path">/memo</span>
+        <p style="margin-top: 10px; margin-bottom: 0;">Convert text to audio</p>
+      </li>
+      <li class="endpoint-item">
+        <span class="method get">GET</span>
+        <span class="path">/memo/:memoId</span>
+        <p style="margin-top: 10px; margin-bottom: 0;">Retrieve memo details by ID</p>
+      </li>
+      <li class="endpoint-item">
+        <span class="method get">GET</span>
+        <span class="path">/memos</span>
+        <p style="margin-top: 10px; margin-bottom: 0;">List all memos (with pagination)</p>
+      </li>
+      <li class="endpoint-item">
+        <span class="method delete">DELETE</span>
+        <span class="path">/memo/:memoId</span>
+        <p style="margin-top: 10px; margin-bottom: 0;">Delete a memo by ID</p>
+      </li>
+    </ul>
+  </section>
+
+  <section class="container">
+    <h2>🤖 Agent Integration</h2>
+    <p><strong>Example: Chatbot Voice Response</strong></p>
+    <div class="code-block"><code>const response = await fetch('https://agent-memo.onrender.com/memo', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    text: "I found 5 results for your search.",
+    voice: "june"
+  })
+});
+
+const memo = await response.json();
+
+// Play audio in browser
+new Audio(memo.audio.url).play();</code></div>
+
+    <p><strong>Example: Voice-Enabled Task Assistant</strong></p>
+    <div class="code-block"><code>import requests
+
+def announce_task_completion(task_name, voice="june"):
+    response = requests.post(
+        'https://agent-memo.onrender.com/memo',
+        json={
+            'text': f'Task {task_name} has been completed!',
+            'voice': voice
+        }
+    )
+    return response.json()['audio']['url']</code></div>
+  </section>
+
+  <section class="container">
+    <h2>🌟 Features</h2>
+    <div class="features">
+      <div class="feature">
+        <span class="feature-icon">🎤</span>
+        <h3>Multiple Voices</h3>
+        <p>9 voices across different tones and genders</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">⚡</span>
+        <h3>Fast & Simple</h3>
+        <p>One POST request to generate audio</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🔄</span>
+        <h3>Multiple TTS Providers</h3>
+        <p>Switch between simulation, Edge, and ElevenLabs</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🤖</span>
+        <h3>Agent-First Design</h3>
+        <p>REST API optimized for AI agents</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🎯</span>
+        <h3>Auto URL Generation</h3>
+        <p>No manual file management needed</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🌐</span>
+        <h3>Cross-Platform</h3>
+        <p>Works with any HTTP client</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <h2>📊 TTS Modes</h2>
+    <p>The service supports multiple TTS modes:</p>
+    <div class="code-block"><code>┌─────────────┬──────────────────────┬──────────────────┐
+│ Mode        │ Description          │ API Key Required │
+├─────────────┼──────────────────────┼──────────────────┤
+│ simulation  │ Silent/Minimal MP3   │ No               │
+│ edge        │ Microsoft Edge TTS   │ No               │
+│ elevenlabs  │ Production TTS       │ Yes              │
+└─────────────┴──────────────────────┴──────────────────┘</code></div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>Made with ❤️ for AI agents</p>
+      <p style="margin-top: 10px;">
+        <a href="https://github.com/twilson63/agent-memo">GitHub Repository</a> •
+        <a href="https://github.com/twilson63/agent-memo/issues">Issues</a>
+      </p>
+      <p style="margin-top: 20px; opacity: 0.7; font-size: 0.9rem;">Version 1.0.0 • Last Updated: 2026-02-13</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -24,6 +24,20 @@ app.use(express.json());
 // Serve static audio files
 app.use('/audio', express.static(join(__dirname, 'storage')));
 
+// Landing page (HTML)
+app.get('/', (req, res) => {
+  res.sendFile(join(__dirname, 'landing.html'));
+});
+
+// Landing page (Markdown for agents)
+app.get('/md', (req, res) => {
+  res.sendFile(join(__dirname, 'LANDING.md'), {
+    headers: {
+      'Content-Type': 'text/markdown; charset=UTF-8'
+    }
+  });
+});
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({
