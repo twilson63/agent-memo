@@ -305,3 +305,4 @@ curl -X POST https://agent-memo.deno.dev/memo \
 ```
 
 🚀 Happy deploying!# Deno Deploy Ready
+# Deployment trigger for new token
