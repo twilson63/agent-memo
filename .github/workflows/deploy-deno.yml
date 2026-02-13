@@ -36,6 +36,7 @@ jobs:
           deno check memo-service.ts
 
       - name: Deploy to Deno Deploy
-        run: |
-          deno install --global --allow-all --no-check https://deno.land/x/deployctl@1.19.0/deployctl.ts
-          deployctl deploy --project=agent-memo --token=${{ secrets.DENO_DEPLOY_TOKEN }} server.ts
+        uses: denoland/deployctl@v1
+        with:
+          project: agent-memo
+          entrypoint: server.ts
