@@ -55,7 +55,7 @@ jobs:
 
       - name: Type check TypeScript
         run: |
-          cd agent-memo
+          # cd agent-memo
           deno check server.ts
           deno check memo-service.ts
           echo "✅ TypeScript type check passed"
@@ -63,14 +63,14 @@ jobs:
       - name: Test locally (if possible)
         continue-on-error: true
         run: |
-          cd agent-memo
+          # cd agent-memo
           echo "Testing server startup..."
           timeout 5 deno run --allow-net --allow-env server.ts || true
           echo "✅ Server startup test completed"
 
       - name: Deploy to Deno Deploy
         run: |
-          cd agent-memo
+          # cd agent-memo
 
           # Set project name or use PROJECT_ID
           if [ -n "$PROJECT_ID" ]; then
@@ -115,7 +115,7 @@ jobs:
 
       - name: Deploy with ElevenLabs (if API key available)
         run: |
-          cd agent-memo
+          # cd agent-memo
 
           # Check if ELEVENLABS_API_KEY secret is set
           if [ -z "${{ secrets.ELEVENLABS_API_KEY }}" ]; then
