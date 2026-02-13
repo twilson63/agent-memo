@@ -87,8 +87,9 @@ app.post('/memo', async (req, res) => {
       });
     }
 
-    // Generate memo
-    const memo = await memoService.createMemo(text, voice);
+    // Generate memo - pass the base URL from the request
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const memo = await memoService.createMemo(text, voice, baseUrl);
 
     res.status(201).json(memo);
   } catch (error) {
