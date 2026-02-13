@@ -135,7 +135,7 @@ export class MemoService {
     const memoId = this.generateId();
     const filename = `memo_${memoId}.mp3`;
 
-    const audioResponse = new Response(audioBuffer, {
+    const audioResponse = new Response(audioBuffer as BodyInit, {
       headers: {
         'Content-Type': 'audio/mpeg',
         'Cache-Control': 'max-age=600', // 10 minutes
