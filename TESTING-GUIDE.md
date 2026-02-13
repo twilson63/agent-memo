@@ -64,6 +64,13 @@ TTS_MODE=elevenlabs
 ELEVENLABS_API_KEY=your_key_here
 ```
 
+**Note:** The Agent Memo service automatically configures the correct API header format (`xi-api-key`) for ElevenLabs authentication. You just need to provide your API key - the service handles the rest!
+
+**Authentication:**
+- Service uses: `xi-api-key: {your_api_key}`
+- ElevenLabs requires this specific header format
+- No need to manually configure - it's built-in!
+
 ---
 
 ## 📝 Getting an ElevenLabs API Key
