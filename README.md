@@ -18,7 +18,22 @@ This enables agents to communicate with users through voice playback, making int
 
 ## 🚀 Quick Start
 
-### 1. Clone and Install
+### Option 1: Deno Deploy (Serverless, 10-min cache) ⭐
+
+Deploy to Deno Deploy with zero configuration:
+
+```bash
+# 1. Add DENO_DEPLOY_TOKEN to GitHub Secrets
+# 2. Push to main branch - auto-deploys!
+
+# Or deploy manually
+cd agent-memo
+./deploy.sh  # or: DENO_DEPLOY_TOKEN=xxx deno deploy server.ts
+```
+
+**See [DENO_DEPLOY.md](./DENO_DEPLOY.md) for full setup guide.**
+
+### Option 2: Node.js/Express (Self-hosted, persistent storage)
 
 ```bash
 git clone https://github.com/twilson63/agent-memo.git
@@ -203,6 +218,13 @@ GET /memo/:memoId
   "createdAt": "2026-02-13T14:30:00.000Z"
 }
 ```
+
+**Note for Deno Deploy:**
+- Audio files are **automatically cached for 10 minutes**
+- Return the `audio.url` response - it works immediately and for 10 minutes
+- After 10 minutes, the audio expires from cache
+- No manual cleanup needed!
+- GET `/memo/:id`, GET `/memos`, and DELETE `/memo/:id` are not supported (no persistence)
 
 **Response (404 Not Found):**
 
@@ -483,17 +505,89 @@ railway up
 
 ```
 agent-memo/
-├── index.mjs              # Main Express server
-├── lib/
-│   └── memo-service.mjs   # Memo business logic & ElevenLabs integration
-├── storage/               # Audio file storage
-├── tests/
-│   └── test-api.mjs       # API tests
-├── .env.example           # Environment template
-├── .gitignore             # Git ignore
-├── package.json           # Dependencies
-└── README.md              # This file
+├── Node.js version (Express)
+│   ├── index.mjs              # Main Express server
+│   ├── lib/
+│   │   └── memo-service.mjs   # Memo business logic & ElevenLabs integration
+│   ├── storage/               # Audio file storage
+│   ├── tests/
+│   │   └── test-api.mjs       # API tests
+│   ├── .env.example           # Environment template
+│   ├── package.json           # Dependencies
+│
+├── Deno Deploy version (TypeScript)
+│   ├── server.ts              # Deno server (Deno.serve())
+│   ├── memo-service.ts        # Memo service with Cache API
+│   ├── types.ts               # TypeScript definitions
+│   ├── deno.json              # Deno configuration
+│   ├── deploy.sh              # Manual deployment script
+│   ├── DENO_DEPLOY.md         # Deployment guide
+│
+├── Shared docs
+│   ├── README.md              # Main documentation
+│   ├── SKILL.md               # OpenCode skill definition
+│   ├── A2A-SPECIFICATION.md   # Agent-to-agent API spec
+│   ├── PROJECT_SUMMARY.md     # Project overview
+│   ├── INTEGRATION_DOCS_SUMMARY.md
+│   └── TESTING-GUIDE.md       # Testing without API key
+│
+└── .github/workflows/
+    └── deploy-deno.yml        # GitHub Actions for auto-deploy
 ```
+
+---
+
+## 🚀 Deployment
+
+### Deno Deploy (Recommended)
+
+✅ **Serverless deployment**
+✅ **10-minute audio cache** (automatic)
+✅ **No persistence needed** - Cache API handles storage
+✅ **Auto-deploy via GitHub Actions**
+✅ **Free during beta**
+
+```bash
+# GitHub Actions (automatic on push to main)
+git push origin main
+
+# Manual deployment
+cd agent-memo
+DENO_DEPLOY_TOKEN=xxx ./deploy.sh
+```
+
+**See [DENO_DEPLOY.md](./DENO_DEPLOY.md) for full guide.**
+
+### Node.js/Express (Self-hosted)
+
+⚠️ Requires persistent file storage
+⚠️ Manual file cleanup
+✅ Full API feature support
+✅ Memo persistence
+
+```bash
+# Use Docker for containerization
+docker build -t agent-memo .
+docker run -p 3000:3000 \
+  -e ELEVENLABS_API_KEY=your_key \
+  agent-memo
+
+# Or use traditional hosting (Render, Railway, etc.)
+# Add ELEVENLABS_API_KEY to environment variables
+```
+
+### Comparison
+
+| Feature | Deno Deploy | Node.js/Express |
+|---------|-------------|-----------------|
+| **Deployment** | Serverless | Self-hosted |
+| **Persistence** | ❌ Cache (10 min) | ✅ File system |
+| **GET /memo/:id** | ❌ Not supported | ✅ Yes |
+| **GET /memos** | ❌ Not supported | ✅ Yes |
+| **DELETE /memo** | ❌ Not supported | ✅ Yes |
+| **Maintenance** | None | Manual cleanup |
+| **Cost** | Free (beta) | Server costs |
+| **Use case** | Simple TTS API | Full-featured app |
 
 ---
 

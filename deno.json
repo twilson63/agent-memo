@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "lib": ["deno.window"],
+    "strict": true
+  },
+  "tasks": {
+    "dev": "deno run --allow-net --allow-env server.ts",
+    "check": "deno check server.ts memo-service.ts types.ts",
+    "deploy": "./deploy.sh"
+  },
+  "deploy": {
+    "project": "agent-memo",
+    "entrypoint": "server.ts"
+  }
+}
