@@ -68,8 +68,12 @@ export interface MemosResponse {
 export interface ErrorResponse {
   error: string;
   memoId?: string;
+  filename?: string;
+  path?: string;
   requestedVoice?: string;
   availableVoices?: VoicesResponse['voices'];
+  hint?: string;
+  message?: string;
 }
 
 export type TTSService = 'simulation' | 'edge' | 'elevenlabs';

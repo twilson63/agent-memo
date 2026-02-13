@@ -184,7 +184,8 @@ export class MemoService {
     const cacheKey = new Request(`/audio/${filename}`);
     const cached = await this.cache.match(cacheKey);
 
-    return cached;
+    // Cache.match() returns Response | undefined, convert to Response | null
+    return cached || null;
   }
 
   /**
