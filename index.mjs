@@ -145,17 +145,29 @@ app.use((err, req, res, next) => {
 
 // Start server
 app.listen(PORT, () => {
+  const ttsMode = memoService.getTTSMode();
+  const ttsLabels = {
+    'simulation': '🎭 Simulation (mock)',
+    'edge': '🌐 Microsoft Edge TTS (free)',
+    'elevenlabs': '🔊 ElevenLabs (API key required)'
+  };
+
   console.log(`
 ╔═════════════════════════════════════════════════════════╗
 ║           🎙️  Agent Memo API - Running!               ║
 ╚═════════════════════════════════════════════════════════╝
   
   📍 API:  http://localhost:${PORT}
-  🔊 TTS:  ElevenLabs
+  🔊 TTS:  ${ttsLabels[ttsMode] || ttsMode}
   📚 Docs: http://localhost:${PORT}/health
   
   Available Voices:
-  ${memoService.getAvailableVoices().map(v => `    • ${v}`).join('\n')}
+  ${memoService.getAvailableVoices().map(v => `    • ${v.name} (${v.gender})`).join('\n')}
+  
+  💡 Testing without API key?
+      • Set TTS_MODE=simulation (mock)
+      • Set TTS_MODE=edge (real audio, free)
+      • See TESTING-GUIDE.md for details
   
 `);
 });
