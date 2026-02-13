@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'agent-memo/**'
-      - '.github/workflows/deploy-deno.yml'
   workflow_dispatch:
 
 env:
